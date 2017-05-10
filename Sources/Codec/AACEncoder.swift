@@ -24,7 +24,7 @@ final class AACEncoder: NSObject {
     static let defaultChannels:UInt32 = 0
     // 0 means according to a input source
     static let defaultSampleRate:Double = 0
-    static let defulatMaximumBuffers:Int = 1
+    static let defaultMaximumBuffers:Int = 1
     static let defaultBufferListSize:Int = AudioBufferList.sizeInBytes(maximumBuffers: 1)
     #if os(iOS)
     static let defaultInClassDescriptions:[AudioClassDescription] = [
@@ -70,7 +70,7 @@ final class AACEncoder: NSObject {
     )
     weak var delegate:AudioEncoderDelegate?
     internal(set) var running:Bool = false
-    private var maximumBuffers:Int = AACEncoder.defulatMaximumBuffers
+    private var maximumBuffers:Int = AACEncoder.defaultMaximumBuffers
     private var bufferListSize:Int = AACEncoder.defaultBufferListSize
     private var currentBufferList:UnsafeMutableAudioBufferListPointer? = nil
     private var inSourceFormat:AudioStreamBasicDescription? {
@@ -80,7 +80,7 @@ final class AACEncoder: NSObject {
                 return
             }
             let nonInterleaved:Bool = inSourceFormat.mFormatFlags & kAudioFormatFlagIsNonInterleaved != 0
-            maximumBuffers = nonInterleaved ? Int(inSourceFormat.mChannelsPerFrame) : AACEncoder.defulatMaximumBuffers
+            maximumBuffers = nonInterleaved ? Int(inSourceFormat.mChannelsPerFrame) : AACEncoder.defaultMaximumBuffers
             bufferListSize = nonInterleaved ? AudioBufferList.sizeInBytes(maximumBuffers: maximumBuffers) : AACEncoder.defaultBufferListSize
         }
     }
